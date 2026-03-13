@@ -3,14 +3,12 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
 async function fetchMovies(url) {
-  const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${API_KEY}` }
-  });
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${API_KEY}` } });
   const data = await res.json();
   return data.results;
 }
 
-// Render hero
+// Hero
 async function loadHero() {
   const movies = await fetchMovies(`${BASE_URL}/movie/popular`);
   const heroMovie = movies[0];
@@ -21,7 +19,7 @@ async function loadHero() {
   document.getElementById('hero-watch').onclick = () => openModal(heroMovie.id);
 }
 
-// Render rows
+// Movies Row
 async function loadMovies() {
   const movies = await fetchMovies(`${BASE_URL}/movie/popular`);
   const row = document.getElementById('movies-row');
