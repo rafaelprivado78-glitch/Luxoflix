@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LuxoFlix</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="navbar" class="visible">
+  <div class="logo-big">Luxo<span>Flix</span></div>
+  <div class="nav-spacer"></div>
+  <div class="search-wrap">
+    <input type="text" id="search-input" placeholder="Buscar filmes..."/>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero-section">
+  <img id="hero-bg" src="" alt="Hero" class="loaded"/>
+  <div class="hero-grad1"></div>
+  <div class="hero-grad2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Filme Popular</div>
+    <h1 id="hero-title">Carregando...</h1>
+    <p id="hero-overview"></p>
+    <div class="hero-btns">
+      <button class="btn btn-primary">Assistir</button>
+      <button class="btn btn-ghost">Trailer</button>
+    </div>
+  </div>
+</section>
+
+<!-- ROWS -->
+<div class="rows-wrap">
+  <h2 class="section-title">Filmes Populares</h2>
+  <div class="row-outer">
+    <div id="row-popular" class="row-scroll"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-media">
+      <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
+      <button id="modal-close" class="modal-close">&times;</button>
+      <div class="modal-media-grad"></div>
+    </div>
+    <div class="modal-body">
+      <img id="modal-poster" class="modal-poster" src="assets/images/no-image.jpg" alt="Poster">
+      <div class="modal-info">
+        <h2 id="modal-title" class="modal-title"></h2>
+        <div class="modal-genres"></div>
+        <p id="modal-overview" class="modal-overview"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/search.js"></script>
+</body>
+  </html>
