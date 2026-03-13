@@ -2,40 +2,45 @@ const API_KEY = 'fc020559303c0ff62e47b2188804df6c';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
-const rowPopular = document.getElementById('row-popular');
-
-rowPopular.innerHTML = Array(5).fill('<div class="skeleton-card"></div>').join('');
-
-async function fetchPopular() {
-  try {
-    const res = await fetch(`${BASE_URL}/movie/popular`, {
-      headers: { Authorization: `Bearer ${API_KEY}`, accept: 'application/json' }
-    });
-    const data = await res.json();
-    window.movies = data.results;
-    renderCards(window.movies);
-    setupHero(window.movies[0]);
-  } catch (err) {
-    console.error(err);
-    rowPopular.innerHTML = '<p style="color:#fff;">Não foi possível carregar os filmes.</p>';
-  }
+async function fetchMovies(url) {
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${API_KEY}` }
+  });
+  const data = await res.json();
+  return data.results;
 }
 
-function renderCards(movies) {
-  rowPopular.innerHTML = movies.map(f => `
-    <div class="card" onclick="openModal(${f.id})">
+// Render hero
+async function loadHero() {
+  const movies = await fetchMovies(`${BASE_URL}/movie/popular`);
+  const heroMovie = movies[0];
+  document.getElementById('hero-bg').src = IMG_URL + heroMovie.backdrop_path;
+  document.getElementById('hero-badge').textContent = heroMovie.title;
+  document.getElementById('hero-title').textContent = heroMovie.title;
+  document.getElementById('hero-overview').textContent = heroMovie.overview;
+  document.getElementById('hero-watch').onclick = () => openModal(heroMovie.id);
+}
+
+// Render rows
+async function loadMovies() {
+  const movies = await fetchMovies(`${BASE_URL}/movie/popular`);
+  const row = document.getElementById('movies-row');
+  row.innerHTML = '';
+  movies.forEach(movie => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
       <div class="card-img-wrap">
-        <img src="${f.poster_path ? IMG_URL + f.poster_path : 'assets/images/no-image.jpg'}" alt="${f.title}" loading="lazy">
+        <img src="${movie.poster_path ? IMG_URL + movie.poster_path : 'assets/images/no-image.jpg'}" />
       </div>
-      <div class="card-title">${f.title}</div>
-    </div>
-  `).join('');
+      <div class="card-title">${movie.title}</div>
+    `;
+    card.onclick = () => openModal(movie.id);
+    row.appendChild(card);
+  });
 }
 
-function setupHero(movie) {
-  document.getElementById('hero-title').textContent = movie.title;
-  document.getElementById('hero-overview').textContent = movie.overview;
-  document.getElementById('hero-bg').src = movie.backdrop_path ? IMG_URL + movie.backdrop_path : '';
-}
-
-fetchPopular();
+window.onload = () => {
+  loadHero();
+  loadMovies();
+};
